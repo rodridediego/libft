@@ -50,7 +50,7 @@ char	*ft_itoa(int n)
 		num[0] = '-';
 	return (num);
 }
-int main()
+/*int main()
 {
 	printf("%s", ft_itoa(-2147483648));
-}
+}*/
