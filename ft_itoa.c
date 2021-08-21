@@ -20,14 +20,12 @@ int	ft_itoa_size(int n)
 	return (i);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa_aux(int n, int sign)
 {
 	int		aux;
 	int		i;
-	int		sign;
 	char	*num;
 
-	sign = (n < 0);
 	if (n == -2147483648)
 	{
 		num = ft_itoa(-2147483647);
@@ -46,11 +44,25 @@ char	*ft_itoa(int n)
 		num[i + sign - 1] = '0' + aux;
 		i--;
 	}
+	return (num);
+}
+
+char	*ft_itoa(int n)
+{
+	int		sign;
+	char	*num;
+
+	sign = (n < 0);
+	num = ft_itoa_aux(n, sign);
+	if (num == NULL)
+		return (NULL);
 	if (sign == 1)
 		num[0] = '-';
 	return (num);
 }
-/*int main()
+/*
+int main()
 {
 	printf("%s", ft_itoa(-2147483648));
-}*/
+}
+*/

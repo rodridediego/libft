@@ -1,5 +1,5 @@
 #include "libft.h"
-size_t	ft_split_count(char const *s, char c)
+size_t	ft_split_words(char const *s, char c)
 {
 	size_t	num_words;
 	size_t	i;
@@ -17,97 +17,37 @@ size_t	ft_split_count(char const *s, char c)
 	return (num_words + 1);
 }
 
-char	**ft_split_mem(const char *s, char c)
-{
-	size_t	i;
-	size_t	j;
-	size_t	aux;
-	char	**table;
-	
-	i = 0;
-	j = 0;
-	table = (char **) malloc(sizeof(char *) * (ft_split_count(s, c) + 1));
-	if (table == NULL)
-		return (NULL);
-	while(s[i] == c)
-		i++;
-	aux = i;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c)
-		{
-			table[j] = (char *) malloc(sizeof(char) * (i - aux + 1));
-			if (table[j] == NULL)
-				return (NULL);
-			while (s[i] == c)
-				i++;
-			aux = i;
-			j++;
-		}
-		else
-			i++;
-	}
-	table[j] = (char *) malloc(sizeof(char));
-	table[j][0] = '\0';
-	return (table);
-}
-
-void	ft_split_fill(char const *s, char c, char **table)
-{
-	size_t i;
-	size_t j;
-	size_t k;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while(s[k] == c)
-		k++;
-	while(s[k] != '\0')
-	{
-		if((s[k] == c) && (k != 0) && (s[k + 1] != '\0') && (s[k + 1] != c))
-		{
-			table[j][i] = '\0';
-			j++;
-			i = 0;
-		}
-		else if (s[k] != c)
-		{
-			table[j][i] = s[k];
-			i++;
-		}
-		k++;
-	}
-	table[j][i] = '\0';
-}
-
 char	**ft_split(char const *s, char c)
 {
-	char	**table;
+	char	**tab;
+	size_t	i;
+	size_t	j;
+	size_t	nw;
 
-	table = ft_split_mem(s, c);
-	if(!table)
-		return(NULL);
-	ft_split_fill(s, c, table);
-	return (table);
+	if (!s)
+		return (NULL);
+	nw = ft_split_words(s, c);
+	tab = (char **) malloc(sizeof(char *) * (nw + 1));
+	if (!tab)
+		return (NULL);
+	j = 0;
+	while (j < nw)
+	{
+		i = 0;
+		while (*s == c)
+			s++;
+		while ((s[i] != c ) && (s[i] != '\0'))
+			i++;
+		tab[j] = ft_substr(s, 0, i);
+		if (!tab)
+			return (NULL);
+		j++;
+		s = s + i;
+	}
+	tab[nw] = 0;
+	return (tab);
 }
 /*
-int main()
-{
-	char **tab;
-
-	tab = ft_split("split  ||this|for|me|||||!|", '|');
-	printf("%s\n", tab[0]);
-	printf("%s\n", tab[1]);
-	printf("%s\n", tab[2]);
-	printf("%s\n", tab[3]);
-	printf("%s\n", tab[4]);
-	printf("%s\n", tab[5]);
-}
-
-#include "libft.h"
-#include <stdio.h>
-
 static size_t	ft_numstring(const char *s, char c)
 {
 	size_t	count;
@@ -177,3 +117,22 @@ char	**ft_split(const char *s, char c)
 	matrix[i] = 0;
 	return (matrix);
 }*/
+/*
+
+int main()
+{
+	char **tab;
+	int i;
+
+	tab = ft_split("split  ||this|for|me|||||!|", '|');
+	i = 0;
+	while (tab[i] != 0)
+	{
+		printf("%s.\n", tab[i]);
+		i++;
+	}
+	printf("%s.\n", tab[4]);
+	printf("%s.\n", tab[5]);
+	printf("%s.\n", tab[6]);
+}
+*/
