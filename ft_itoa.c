@@ -1,12 +1,12 @@
 #include "libft.h"
-int	ft_itoa_abs(int n)
+static int	ft_itoa_abs(int n)
 {
 	if (n < 0)
 		n = -n;
 	return (n);
 }
 
-int	ft_itoa_size(int n)
+static int	ft_itoa_size(int n)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ int	ft_itoa_size(int n)
 	return (i);
 }
 
-char	*ft_itoa_aux(int n, int sign)
+static char	*ft_itoa_aux(int n, int sign)
 {
 	int		aux;
 	int		i;
@@ -29,6 +29,8 @@ char	*ft_itoa_aux(int n, int sign)
 	if (n == -2147483648)
 	{
 		num = ft_itoa(-2147483647);
+		if (num == NULL)
+			return (NULL);
 		num[10] = '8';
 		return (num);
 	}
@@ -61,8 +63,53 @@ char	*ft_itoa(int n)
 	return (num);
 }
 /*
-int main()
+static size_t	ft_intlen(long nb)
 {
-	printf("%s", ft_itoa(-2147483648));
+	size_t	count;
+
+	count = 0;
+	if (nb == 0)
+	{
+		count++;
+		return (count);
+	}
+	if (nb < 0)
+	{
+		nb = nb * -1;
+		count++;
+	}
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		count++;
+	}
+	return (count);
 }
-*/
+
+char	*ft_itoa(int n)
+{
+	char	*strnum;
+	size_t	len;
+	long	nb;
+
+	nb = n;
+	len = ft_intlen(nb);
+	strnum = (char *)malloc(sizeof(char) * len + 1);
+	if (!strnum)
+		return (NULL);
+	strnum[len--] = '\0';
+	if (n == 0)
+		strnum[0] = '0';
+	if (nb < 0)
+	{
+		strnum[0] = '-';
+		nb = nb * -1;
+	}
+	while (nb > 0)
+	{
+		strnum[len] = (nb % 10) + '0';
+		nb = nb / 10;
+		len--;
+	}
+	return (strnum);
+}*/

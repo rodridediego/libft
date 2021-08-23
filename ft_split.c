@@ -1,12 +1,12 @@
 #include "libft.h"
-size_t	ft_split_words(char const *s, char c)
+static size_t	ft_split_words(char const *s, char c)
 {
 	size_t	num_words;
 	size_t	i;
 
 	num_words = 0;
 	i = 0;
-	while(s[i] == c)
+	while (s[i] == c)
 		i++;
 	while (s[i] != '\0')
 	{
@@ -17,28 +17,36 @@ size_t	ft_split_words(char const *s, char c)
 	return (num_words + 1);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**ft_split_checks(const char *s)
 {
 	char	**tab;
-	size_t	i;
-	size_t	j;
-	size_t	nw;
 
 	if (!s)
 		return (NULL);
-	nw = ft_split_words(s, c);
-	tab = (char **) malloc(sizeof(char *) * (nw + 1));
-	if (!tab)
-		return (NULL);
+	if (*s == 0)
+	{
+		tab = (char **) malloc(sizeof(char *) * 1);
+		tab[0] = 0;
+		return (tab);
+	}
+	return (0);
+}
+
+char	**ft_split_memndfill(const char *s, char **tab, char c, size_t nw)
+{
+	size_t	i;
+	size_t	j;
+
 	j = 0;
 	while (j < nw)
 	{
 		i = 0;
 		while (*s == c)
 			s++;
-		while ((s[i] != c ) && (s[i] != '\0'))
+		while ((s[i] != c) && (s[i] != '\0'))
 			i++;
-		tab[j] = ft_substr(s, 0, i);
+		if (i != 0)
+			tab[j] = ft_substr(s, 0, i);
 		if (!tab)
 			return (NULL);
 		j++;
@@ -47,78 +55,21 @@ char	**ft_split(char const *s, char c)
 	tab[nw] = 0;
 	return (tab);
 }
-/*
-static size_t	ft_numstring(const char *s, char c)
-{
-	size_t	count;
-	size_t	flag;
-
-	count = 0;
-	flag = 0;
-	if (!s)
-		return (0);
-	while (*s != '\0')
-	{
-		if (*s == c)
-			flag = 0;
-		else if (flag == 0)
-		{
-			flag = 1;
-			count++;
-		}
-		s++;
-	}
-	return (count);
-}
-
-static size_t	ft_numchar(const char *s, char c)
-{
-	size_t	count;
-
-	count = 0;
-	while (s[count] != c && s[count] != '\0')
-		count++;
-	return (count);
-}
-
-static char	**ft_free_matrix(const char **matrix, size_t len_matrix)
-{
-	while (len_matrix--)
-		free((void *)matrix[len_matrix]);
-	free(matrix);
-	return (NULL);
-}
 
 char	**ft_split(const char *s, char c)
 {
-	char	**matrix;
-	size_t	len;
-	size_t	i;
-	size_t	sl;
+	char	**tab;
+	size_t	nw;
 
-	i = 0;
-	sl = 0;
-	len = ft_numstring(s, c);
-	matrix = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!matrix)
+	if (!s || *s == 0)
+		return (ft_split_checks(s));
+	nw = ft_split_words(s, c);
+	tab = (char **) malloc(sizeof(char *) * (nw + 1));
+	if (!tab)
 		return (NULL);
-	while (i < len)
-	{
-		while (*s == c)
-			s++;
-		sl = ft_numchar((const char *)s, c);
-		matrix[i] = (char *)malloc(sizeof(char) * sl + 1);
-		if (!matrix[i])
-			return (ft_free_matrix((const char **)matrix, len));
-		ft_strlcpy(matrix[i], s, sl + 1);
-		s = (ft_strchr(s, (int)c));
-		i++;
-	}
-	matrix[i] = 0;
-	return (matrix);
-}*/
+	return (ft_split_memndfill(s, tab, c, nw));
+}
 /*
-
 int main()
 {
 	char **tab;
