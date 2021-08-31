@@ -18,6 +18,17 @@ static size_t	ft_split_words(char const *s, char c)
 	return (num_words + 1);
 }
 
+static char	**ft_split_free(char **tab, size_t j)
+{
+	while (j >= 0)
+	{
+		free(tab[j]);
+		j--;
+	}
+	free(tab);
+	return (NULL);
+}
+
 static char	**ft_split_checks(const char *s)
 {
 	char	**tab;
@@ -48,8 +59,8 @@ char	**ft_split_memndfill(const char *s, char **tab, char c, size_t nw)
 			i++;
 		if (i != 0)
 			tab[j] = ft_substr(s, 0, i);
-		if (!tab)
-			return (NULL);
+		if (!tab[j])
+			return (ft_split_free(tab, j));
 		j++;
 		s = s + i;
 	}
