@@ -1,4 +1,5 @@
 #include "libft.h"
+
 static size_t	ft_split_words(char const *s, char c)
 {
 	size_t	num_words;
@@ -41,7 +42,7 @@ char	**ft_split_memndfill(const char *s, char **tab, char c, size_t nw)
 	while (j < nw)
 	{
 		i = 0;
-		while (*s == c)
+		while ((*s == c) && (s[i] != '\0'))
 			s++;
 		while ((s[i] != c) && (s[i] != '\0'))
 			i++;
@@ -60,30 +61,22 @@ char	**ft_split(const char *s, char c)
 {
 	char	**tab;
 	size_t	nw;
+	size_t	i;
 
 	if (!s || *s == 0)
 		return (ft_split_checks(s));
+	i = 0;
+	while (s[i] == c)
+		i++;
+	if (s[i] == '\0')
+	{
+		tab = (char **) malloc(sizeof(char *) * 1);
+		tab[0] = 0;
+		return (tab);
+	}
 	nw = ft_split_words(s, c);
 	tab = (char **) malloc(sizeof(char *) * (nw + 1));
 	if (!tab)
 		return (NULL);
 	return (ft_split_memndfill(s, tab, c, nw));
 }
-/*
-int main()
-{
-	char **tab;
-	int i;
-
-	tab = ft_split("split  ||this|for|me|||||!|", '|');
-	i = 0;
-	while (tab[i] != 0)
-	{
-		printf("%s.\n", tab[i]);
-		i++;
-	}
-	printf("%s.\n", tab[4]);
-	printf("%s.\n", tab[5]);
-	printf("%s.\n", tab[6]);
-}
-*/
