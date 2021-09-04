@@ -60,7 +60,7 @@ char	**ft_split_memndfill(const char *s, char **tab, char c, size_t nw)
 		if (i != 0)
 			tab[j] = ft_substr(s, 0, i);
 		if (!tab[j])
-			return (ft_split_free(tab, j));
+			return (ft_split_free(tab, j - 1));
 		j++;
 		s = s + i;
 	}
