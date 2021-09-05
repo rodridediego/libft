@@ -44,7 +44,7 @@ static char	**ft_split_checks(const char *s)
 	return (0);
 }
 
-char	**ft_split_memndfill(const char *s, char **tab, char c, size_t nw)
+static char	**ft_split_memndfill(const char *s, char **tab, char c, size_t nw)
 {
 	size_t	i;
 	size_t	j;
