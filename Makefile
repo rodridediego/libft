@@ -10,7 +10,7 @@ ${NAME}:	${OBJS}
 			ar rc  ${NAME} ${OBJS}
 all:		${NAME}
 clean:
-			${RM} ${OBJS} ${OBJB}
+			${RM} ${OBJS}
 fclean:		clean
 			${RM} ${NAME}
 re:			fclean all

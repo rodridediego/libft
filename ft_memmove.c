@@ -9,8 +9,11 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	sr = (const unsigned char *)src;
 	if (dest > sr)
 	{
-		while (len--)
+		while (len)
+		{
+			len--;
 			dest[len] = sr[len];
+		}
 	}
 	else if (dest < sr)
 		ft_memcpy(dst, src, len);
